@@ -15,6 +15,7 @@ URL:		http://ctdb.samba.org/
 # cd ctdb
 # git-archive --format=tar --prefix=%{name}-%{version}/ %{name}-%{version} | bzip2 > %{name}-%{version}.tar.bz2
 Source0:	%{name}-%{version}.tar.bz2
+# Source0-md5:	ce3eda943bf81c7c9e513ec715f4a785
 BuildRequires:	autoconf
 BuildRequires:	net-tools
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -69,7 +70,7 @@ install -d $RPM_BUILD_ROOT%{_docdir}/ctdb/tests/bin
 install -p tests/bin/ctdb_transaction $RPM_BUILD_ROOT%{_docdir}/ctdb/tests/bin
 
 # Remove "*.old" files
-find $RPM_BUILD_ROOT -name "*.old" -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -name "*.old" -exec rm -fv {} ';'
 
 # fix doc path
 mv $RPM_BUILD_ROOT%{_docdir}/ctdb $RPM_BUILD_ROOT%{_docdir}/ctdb-%{version}
@@ -80,16 +81,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add ctdb
+%service ctdb restart
 
 %preun
 if [ "$1" -eq "0" ] ; then
 	%service ctdb stop
 	/sbin/chkconfig --del ctdb
-fi
-
-%postun
-if [ "$1" -ge "1" ]; then
-	%service ctdb restart
 fi
 
 %files
