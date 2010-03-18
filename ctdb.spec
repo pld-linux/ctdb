@@ -24,7 +24,7 @@ Requires:	coreutils
 Requires:	psmisc
 Requires:	rc-scripts
 Requires:	sed
-Requires:	tdb-tools
+Requires:	tdb
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -40,10 +40,7 @@ Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Libraries, include files, etc you can use to develop CTDB
-applications. CTDB is a cluster implementation of the TDB database
-used by Samba and other projects to store temporary data. If an
-application is already using TDB for temporary data it is very easy to
-convert that application to be cluster aware and use CTDB instead.
+applications.
 
 %prep
 %setup -q
