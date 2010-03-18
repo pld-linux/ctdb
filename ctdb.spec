@@ -3,10 +3,13 @@
 #   checking for iface getifaddrs...
 #   lo         IP=127.0.0.1 NETMASK=255.0.0.0
 #   eth0       IP=x.x.x.x NETMASK=255.255.252.0
+# - add support for /sbin/ss instead of /bin/netstat (ss uses kernel netlink
+#   which is huge win on server with loads of open tcp sockets)
+# - patch scripts for pld
 Summary:	A Clustered Database based on Samba's Trivial Database (TDB)
 Name:		ctdb
 Version:	1.0.113
-Release:	0.1
+Release:	1
 License:	GPL v3+
 Group:		Daemons
 URL:		http://ctdb.samba.org/
@@ -36,7 +39,7 @@ application to be cluster aware and use CTDB instead.
 %package devel
 Summary:	CTDB clustered database development package
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+# does not require base
 
 %description devel
 Libraries, include files, etc you can use to develop CTDB
@@ -91,7 +94,7 @@ fi
 %{_docdir}/ctdb-%{version}
 %dir %{_sysconfdir}/ctdb
 %{_sysconfdir}/ctdb/events.d
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ctdb/notify.sh
+%config(noreplace) %verify(not md5 mtime size) %attr(755,root,root) %{_sysconfdir}/ctdb/notify.sh
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ctdb/functions
 %{_sysconfdir}/ctdb/statd-callout
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ctdb
