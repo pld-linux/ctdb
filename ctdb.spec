@@ -7,6 +7,7 @@
 #   which is huge win on server with loads of open tcp sockets)
 # - patch scripts for pld
 Summary:	A Clustered Database based on Samba's Trivial Database (TDB)
+Summary(pl.UTF-8):	Klastrowa baza danych oparta na bazie danych Trivial Database z Samby (TDB)
 Name:		ctdb
 Version:	1.0.113
 Release:	1
@@ -19,8 +20,9 @@ URL:		http://ctdb.samba.org/
 # git-archive --format=tar --prefix=%{name}-%{version}/ %{name}-%{version} | bzip2 > %{name}-%{version}.tar.bz2
 Source0:	%{name}-%{version}.tar.bz2
 # Source0-md5:	ce3eda943bf81c7c9e513ec715f4a785
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	net-tools
+BuildRequires:	popt-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	coreutils
@@ -36,14 +38,24 @@ other projects to store temporary data. If an application is already
 using TDB for temporary data it is very easy to convert that
 application to be cluster aware and use CTDB instead.
 
+%description -l pl.UTF-8
+CTDB to klastrowa implementacja bazy danych TDB używanej w Sambie oraz
+innych projektach do przechowywania danych tymczasowych. Jeśli jakaś
+aplikacja już wykorzystuje TDB do trzymania danych tymczasowych,
+bardzo przerobić ją na klastrowalną, wykorzystującą CTDB.
+
 %package devel
 Summary:	CTDB clustered database development package
+Summary(pl.UTF-8):	Pakiet programistyczny klastrowej bazy danych CTDB
 Group:		Development/Libraries
 # does not require base
 
 %description devel
-Libraries, include files, etc you can use to develop CTDB
-applications.
+Header files etc. you can use to develop CTDB applications.
+
+%description devel -l pl.UTF-8
+Pliki nagłówkowe i inne, przy użyciu których można tworzyć aplikacje
+wykorzystujące CTDB.
 
 %prep
 %setup -q
