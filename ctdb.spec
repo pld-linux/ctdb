@@ -5,6 +5,8 @@
 #   checking for iface getifaddrs...
 #   lo         IP=127.0.0.1 NETMASK=255.0.0.0
 #   eth0       IP=x.x.x.x NETMASK=255.255.252.0
+# - add support for /sbin/ss instead of /bin/netstat (ss uses kernel netlink
+#   which is huge win on server with loads of open tcp sockets)
 # - patch scripts for pld
 #
 # Conditional build:
