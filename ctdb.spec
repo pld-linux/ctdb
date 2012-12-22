@@ -11,6 +11,7 @@
 #
 # Conditional build:
 %bcond_without	ibverbs		# InfiniBand support
+%bcond_without	pcp		# Performance Co-Pilot support
 #
 Summary:	A Clustered Database based on Samba's Trivial Database (TDB)
 Summary(pl.UTF-8):	Klastrowa baza danych oparta na bazie danych Trivial Database z Samby (TDB)
@@ -22,7 +23,9 @@ Group:		Daemons
 Source0:	http://www.samba.org/ftp/ctdb/%{name}-%{version}.tar.gz
 # Source0-md5:	89a397e165e7f5347f06a6cf45fd6b60
 Patch0:		%{name}-ib.patch
+Patch1:		%{name}-pcp.patch
 URL:		http://ctdb.samba.org/
+%{?with_pcp:BuildRequires:	pcp-devel}
 BuildRequires:	popt-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	talloc-devel
@@ -65,12 +68,29 @@ Header files etc. you can use to develop CTDB applications.
 Pliki nagłówkowe i inne, przy użyciu których można tworzyć aplikacje
 wykorzystujące CTDB.
 
+%package -n pcp-ctdb
+Summary:	CTDB PMDA
+Summary(pl.UTF-8):	PMDA CTDB
+Group:		Applications/System
+Requires:	%{name} = %{version}-%{release}
+Requires:	pcp
+
+%description -n pcp-ctdb
+This PMDA extracts metrics from the locally running ctdbd daemon for
+export to PMCD.
+
+%description -n pcp-ctdb -l pl.UTF-8
+Ten PMDA odczytuje pomiary z lokalnie działającego demona ctdbd w celu
+wyeksportowania do PMCD.
+
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %configure \
+	%{!?with_pcp:ac_cv_header_pcp_pmda_h=no} \
 	%{?with_ibverbs:--enable-infiniband}
 %{__make} showflags
 %{__make}
@@ -139,3 +159,14 @@ fi
 %{_libdir}/libctdb.a
 %{_includedir}/ctdb*.h
 %{_pkgconfigdir}/ctdb.pc
+
+%files -n pcp-ctdb
+%defattr(644,root,root,755)
+%dir /var/lib/pcp/pmdas/ctdb
+%doc /var/lib/pcp/pmdas/ctdb/README
+%attr(755,root,root) /var/lib/pcp/pmdas/ctdb/Install
+%attr(755,root,root) /var/lib/pcp/pmdas/ctdb/Remove
+%attr(755,root,root) /var/lib/pcp/pmdas/ctdb/pmdactdb
+/var/lib/pcp/pmdas/ctdb/domain.h
+/var/lib/pcp/pmdas/ctdb/help
+/var/lib/pcp/pmdas/ctdb/pmns
