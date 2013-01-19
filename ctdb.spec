@@ -1,5 +1,4 @@
 # TODO
-# - pcp support (pcp/{pmapi,impl,pmda}.h)
 # - shared libctdb (not ready in Makefile)
 # - skip interfaces check:
 #   checking for iface getifaddrs...
@@ -16,12 +15,12 @@
 Summary:	A Clustered Database based on Samba's Trivial Database (TDB)
 Summary(pl.UTF-8):	Klastrowa baza danych oparta na bazie danych Trivial Database z Samby (TDB)
 Name:		ctdb
-Version:	2.0
+Version:	2.1
 Release:	1
 License:	GPL v3+
 Group:		Daemons
 Source0:	http://www.samba.org/ftp/ctdb/%{name}-%{version}.tar.gz
-# Source0-md5:	89a397e165e7f5347f06a6cf45fd6b60
+# Source0-md5:	61733cc10b4df20fa35dfd4d2697d8b8
 Patch0:		%{name}-ib.patch
 Patch1:		%{name}-pcp.patch
 URL:		http://ctdb.samba.org/
