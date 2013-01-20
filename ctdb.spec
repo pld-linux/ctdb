@@ -23,6 +23,7 @@ Source0:	http://www.samba.org/ftp/ctdb/%{name}-%{version}.tar.gz
 # Source0-md5:	61733cc10b4df20fa35dfd4d2697d8b8
 Patch0:		%{name}-ib.patch
 Patch1:		%{name}-pcp.patch
+Patch2:		%{name}-format.patch
 URL:		http://ctdb.samba.org/
 %{?with_pcp:BuildRequires:	pcp-devel}
 BuildRequires:	popt-devel
@@ -86,6 +87,7 @@ wyeksportowania do PMCD.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %configure \

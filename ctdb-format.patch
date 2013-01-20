@@ -1,0 +1,92 @@
+--- ctdb-2.1/ib/ibwrapper.c.orig	2013-01-20 07:41:57.623125096 +0100
++++ ctdb-2.1/ib/ibwrapper.c	2013-01-20 08:05:20.174450630 +0100
+@@ -346,7 +346,7 @@
+ 	rc = ibv_post_recv(pconn->cm_id->qp, &wr, &bad_wr);
+ 	if (rc) {
+ 		sprintf(ibw_lasterr, "refill/ibv_post_recv failed with %d\n", rc);
+-		DEBUG(DEBUG_ERR, (ibw_lasterr));
++		DEBUG(DEBUG_ERR, ("%s", ibw_lasterr));
+ 		return -2;
+ 	}
+ 
+@@ -380,7 +380,7 @@
+ 		rc = ibv_post_recv(pconn->cm_id->qp, &wr, &bad_wr);
+ 		if (rc) {
+ 			sprintf(ibw_lasterr, "fill/ibv_post_recv failed with %d\n", rc);
+-			DEBUG(DEBUG_ERR, (ibw_lasterr));
++			DEBUG(DEBUG_ERR, ("%s", ibw_lasterr));
+ 			return -2;
+ 		}
+ 	}
+@@ -657,7 +657,7 @@
+ error:
+ 	ibv_ack_cq_events(pconn->cq, 1);
+ 
+-	DEBUG(DEBUG_ERR, (ibw_lasterr));
++	DEBUG(DEBUG_ERR, ("%s", ibw_lasterr));
+ 	
+ 	if (conn->state!=IBWC_ERROR) {
+ 		conn->state = IBWC_ERROR;
+@@ -997,7 +997,7 @@
+ 	return ctx;
+ 	/* don't put code here */
+ cleanup:
+-	DEBUG(DEBUG_ERR, (ibw_lasterr));
++	DEBUG(DEBUG_ERR, ("%s", ibw_lasterr));
+ 
+ 	if (ctx)
+ 		talloc_free(ctx);
+@@ -1035,7 +1035,7 @@
+ 	rc = rdma_bind_addr(pctx->cm_id, (struct sockaddr *) my_addr);
+ 	if (rc) {
+ 		sprintf(ibw_lasterr, "rdma_bind_addr error %d\n", rc);
+-		DEBUG(DEBUG_ERR, (ibw_lasterr));
++		DEBUG(DEBUG_ERR, ("%s", ibw_lasterr));
+ 		return rc;
+ 	}
+ 	DEBUG(DEBUG_DEBUG, ("rdma_bind_addr successful\n"));
+@@ -1052,7 +1052,7 @@
+ 	rc = rdma_listen(pctx->cm_id, backlog);
+ 	if (rc) {
+ 		sprintf(ibw_lasterr, "rdma_listen failed: %d\n", rc);
+-		DEBUG(DEBUG_ERR, (ibw_lasterr));
++		DEBUG(DEBUG_ERR, ("%s", ibw_lasterr));
+ 		return rc;
+ 	}
+ 
+@@ -1074,7 +1074,7 @@
+ 	rc = rdma_accept(pconn->cm_id, &conn_param);
+ 	if (rc) {
+ 		sprintf(ibw_lasterr, "rdma_accept failed %d\n", rc);
+-		DEBUG(DEBUG_ERR, (ibw_lasterr));
++		DEBUG(DEBUG_ERR, ("%s", ibw_lasterr));
+ 		return -1;;
+ 	}
+ 
+@@ -1121,7 +1121,7 @@
+ 	rc = rdma_resolve_addr(pconn->cm_id, NULL, (struct sockaddr *) serv_addr, 2000);
+ 	if (rc) {
+ 		sprintf(ibw_lasterr, "rdma_resolve_addr error %d\n", rc);
+-		DEBUG(DEBUG_ERR, (ibw_lasterr));
++		DEBUG(DEBUG_ERR, ("%s", ibw_lasterr));
+ 		talloc_free(conn);
+ 		return -1;
+ 	}
+@@ -1148,7 +1148,7 @@
+ 		rc = rdma_disconnect(pconn->cm_id);
+ 		if (rc) {
+ 			sprintf(ibw_lasterr, "ibw_disconnect failed with %d\n", rc);
+-			DEBUG(DEBUG_ERR, (ibw_lasterr));
++			DEBUG(DEBUG_ERR, ("%s", ibw_lasterr));
+ 			return rc;
+ 		}
+ 		break;
+@@ -1286,7 +1286,7 @@
+ 
+ 	return 0;
+ error:
+-	DEBUG(DEBUG_ERR, (ibw_lasterr));
++	DEBUG(DEBUG_ERR, ("%s", ibw_lasterr));
+ 	return -1;
+ }
+ 
