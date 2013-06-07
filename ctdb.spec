@@ -15,15 +15,14 @@
 Summary:	A Clustered Database based on Samba's Trivial Database (TDB)
 Summary(pl.UTF-8):	Klastrowa baza danych oparta na bazie danych Trivial Database z Samby (TDB)
 Name:		ctdb
-Version:	2.1
+Version:	2.2
 Release:	1
 License:	GPL v3+
 Group:		Daemons
 Source0:	http://www.samba.org/ftp/ctdb/%{name}-%{version}.tar.gz
-# Source0-md5:	61733cc10b4df20fa35dfd4d2697d8b8
+# Source0-md5:	c5aa3c887d1cb1eb2cfd84bb22c3d142
 Patch0:		%{name}-ib.patch
-Patch1:		%{name}-pcp.patch
-Patch2:		%{name}-format.patch
+Patch1:		%{name}-format.patch
 URL:		http://ctdb.samba.org/
 %{?with_pcp:BuildRequires:	pcp-devel}
 BuildRequires:	popt-devel
@@ -87,11 +86,10 @@ wyeksportowania do PMCD.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %configure \
-	%{!?with_pcp:ac_cv_header_pcp_pmda_h=no} \
+	%{?with_pcp:--enable-pmda} \
 	%{?with_ibverbs:--enable-infiniband}
 %{__make} showflags
 %{__make}
@@ -134,6 +132,8 @@ fi
 %{_docdir}/ctdb-%{version}
 %dir %{_sysconfdir}/ctdb
 %{_sysconfdir}/ctdb/events.d
+%{_sysconfdir}/ctdb/nfs-rpc-checks.d
+%{_sysconfdir}/ctdb/notify.d
 %config(noreplace) %verify(not md5 mtime size) %attr(755,root,root) %{_sysconfdir}/ctdb/ctdb-crash-cleanup.sh
 %config(noreplace) %verify(not md5 mtime size) %attr(755,root,root) %{_sysconfdir}/ctdb/debug-hung-script.sh
 %config(noreplace) %verify(not md5 mtime size) %attr(755,root,root) %{_sysconfdir}/ctdb/gcore_trace.sh
@@ -142,9 +142,11 @@ fi
 %{_sysconfdir}/ctdb/statd-callout
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ctdb
 %attr(754,root,root) /etc/rc.d/init.d/ctdb
+%attr(440,root,root) /etc/sudoers.d/ctdb
 %attr(755,root,root) %{_sbindir}/ctdbd
 %attr(755,root,root) %{_bindir}/ctdb
 %attr(755,root,root) %{_bindir}/ctdb_diagnostics
+%attr(755,root,root) %{_bindir}/ctdb_lock_helper
 %attr(755,root,root) %{_bindir}/ltdbtool
 %attr(755,root,root) %{_bindir}/onnode
 %attr(755,root,root) %{_bindir}/ping_pong
