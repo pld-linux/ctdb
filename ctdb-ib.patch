@@ -19,9 +19,9 @@
  #include <system/network.h>
  #include <assert.h>
  #include "ctdb_private.h"
---- ctdb-2.2/Makefile.in.orig	2013-05-30 04:30:32.000000000 +0200
-+++ ctdb-2.2/Makefile.in	2013-06-07 20:27:01.381037615 +0200
-@@ -285,7 +285,7 @@
+--- ctdb-2.3/Makefile.in.orig	2013-07-11 07:18:06.000000000 +0200
++++ ctdb-2.3/Makefile.in	2013-07-13 22:20:14.932379870 +0200
+@@ -293,7 +293,7 @@
  CTDB_TEST_C = $(CTDB_CLIENT_OBJ:.o=.c) tools/ctdb.c tools/ctdb_vacuum.c  tests/src/ctdb_test.c
  
  CTDB_TEST_OBJ =  $(TALLOC_OBJ) $(TDB_OBJ) \
@@ -30,15 +30,15 @@
  
  tests/src/ctdb_takeover_tests.o: tests/src/ctdb_takeover_tests.c $(CTDBD_TEST_C)
  
-@@ -305,9 +305,9 @@
+@@ -313,9 +313,9 @@
  	@echo Linking $@
- 	@$(CC) $(CFLAGS) -o $@ tests/src/ctdb_tool_stubby.o $(CTDB_TEST_OBJ) $(POPT_OBJ) $(LIB_FLAGS)
+ 	$(WRAPPER) $(CC) $(CFLAGS) -o $@ tests/src/ctdb_tool_stubby.o $(CTDB_TEST_OBJ) $(POPT_OBJ) $(LIB_FLAGS)
  
 -tests/bin/ibwrapper_test: $(CTDB_CLIENT_OBJ) ib/ibwrapper_test.o
 +tests/bin/ibwrapper_test: $(CTDB_CLIENT_OBJ) ib/ibwrapper_test.o @INFINIBAND_WRAPPER_OBJ@
  	@echo Linking $@
--	@$(CC) $(CFLAGS) -o $@ ib/ibwrapper_test.o $(CTDB_CLIENT_OBJ) $(LIB_FLAGS)
-+	@$(CC) $(CFLAGS) -o $@ ib/ibwrapper_test.o $(CTDB_CLIENT_OBJ) @INFINIBAND_WRAPPER_OBJ@ $(LIB_FLAGS)
+-	$(WRAPPER) $(CC) $(CFLAGS) -o $@ ib/ibwrapper_test.o $(CTDB_CLIENT_OBJ) $(LIB_FLAGS)
++	$(WRAPPER) $(CC) $(CFLAGS) -o $@ ib/ibwrapper_test.o $(CTDB_CLIENT_OBJ) @INFINIBAND_WRAPPER_OBJ@ $(LIB_FLAGS)
  
  manpages:
  	$(MAKE) -C doc
