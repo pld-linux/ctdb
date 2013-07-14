@@ -96,13 +96,14 @@ wyeksportowania do PMCD.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/etc/{sysconfig,rc.d/init.d}
+install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{systemdunitdir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 cp -a config/ctdb.sysconfig $RPM_BUILD_ROOT/etc/sysconfig/ctdb
 install -p config/ctdb.init $RPM_BUILD_ROOT/etc/rc.d/init.d/ctdb
+cp -p config/ctdb.service $RPM_BUILD_ROOT%{systemdunitdir}
 
 install -d $RPM_BUILD_ROOT%{_docdir}/ctdb/tests/bin
 install -p tests/bin/ctdb_transaction $RPM_BUILD_ROOT%{_docdir}/ctdb/tests/bin
@@ -140,9 +141,6 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %attr(755,root,root) %{_sysconfdir}/ctdb/notify.sh
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ctdb/functions
 %{_sysconfdir}/ctdb/statd-callout
-%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ctdb
-%attr(754,root,root) /etc/rc.d/init.d/ctdb
-%attr(440,root,root) /etc/sudoers.d/ctdb
 %attr(755,root,root) %{_sbindir}/ctdbd
 %attr(755,root,root) %{_sbindir}/ctdbd_wrapper
 %attr(755,root,root) %{_bindir}/ctdb
@@ -152,6 +150,10 @@ fi
 %attr(755,root,root) %{_bindir}/onnode
 %attr(755,root,root) %{_bindir}/ping_pong
 %attr(755,root,root) %{_bindir}/smnotify
+%{systemdunitdir}/ctdb.service
+%attr(754,root,root) /etc/rc.d/init.d/ctdb
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ctdb
+%attr(440,root,root) /etc/sudoers.d/ctdb
 %{_mandir}/man1/ctdb.1*
 %{_mandir}/man1/ctdbd.1*
 %{_mandir}/man1/ltdbtool.1*
