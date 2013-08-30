@@ -15,12 +15,12 @@
 Summary:	A Clustered Database based on Samba's Trivial Database (TDB)
 Summary(pl.UTF-8):	Klastrowa baza danych oparta na bazie danych Trivial Database z Samby (TDB)
 Name:		ctdb
-Version:	2.3
+Version:	2.4
 Release:	1
 License:	GPL v3+
 Group:		Daemons
 Source0:	http://www.samba.org/ftp/ctdb/%{name}-%{version}.tar.gz
-# Source0-md5:	5dfb5b055298b6cb80e7d0cd40768e50
+# Source0-md5:	0cfd24a056f0dbffc8ca64a2373f084c
 Patch0:		%{name}-ib.patch
 Patch1:		%{name}-format.patch
 URL:		http://ctdb.samba.org/
@@ -137,6 +137,7 @@ fi
 %{_sysconfdir}/ctdb/notify.d
 %config(noreplace) %verify(not md5 mtime size) %attr(755,root,root) %{_sysconfdir}/ctdb/ctdb-crash-cleanup.sh
 %config(noreplace) %verify(not md5 mtime size) %attr(755,root,root) %{_sysconfdir}/ctdb/debug-hung-script.sh
+%config(noreplace) %verify(not md5 mtime size) %attr(755,root,root) %{_sysconfdir}/ctdb/debug_locks.sh
 %config(noreplace) %verify(not md5 mtime size) %attr(755,root,root) %{_sysconfdir}/ctdb/gcore_trace.sh
 %config(noreplace) %verify(not md5 mtime size) %attr(755,root,root) %{_sysconfdir}/ctdb/notify.sh
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ctdb/functions
