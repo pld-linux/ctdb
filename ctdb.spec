@@ -1,5 +1,4 @@
 # TODO
-# - shared libctdb (not ready in Makefile)
 # - skip interfaces check:
 #   checking for iface getifaddrs...
 #   lo         IP=127.0.0.1 NETMASK=255.0.0.0
@@ -15,12 +14,12 @@
 Summary:	A Clustered Database based on Samba's Trivial Database (TDB)
 Summary(pl.UTF-8):	Klastrowa baza danych oparta na bazie danych Trivial Database z Samby (TDB)
 Name:		ctdb
-Version:	2.4
+Version:	2.5
 Release:	1
 License:	GPL v3+
 Group:		Daemons
 Source0:	http://www.samba.org/ftp/ctdb/%{name}-%{version}.tar.gz
-# Source0-md5:	0cfd24a056f0dbffc8ca64a2373f084c
+# Source0-md5:	274db3a1ec3858092ec7dc960bfd0c40
 Patch0:		%{name}-ib.patch
 Patch1:		%{name}-format.patch
 URL:		http://ctdb.samba.org/
@@ -104,6 +103,10 @@ install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{systemdunitdir}}
 cp -a config/ctdb.sysconfig $RPM_BUILD_ROOT/etc/sysconfig/ctdb
 install -p config/ctdb.init $RPM_BUILD_ROOT/etc/rc.d/init.d/ctdb
 cp -p config/ctdb.service $RPM_BUILD_ROOT%{systemdunitdir}
+install -d $RPM_BUILD_ROOT%{systemdtmpfilesdir}
+cat >$RPM_BUILD_ROOT%{systemdtmpfilesdir}/ctdb.conf <<EOF
+d /var/run/ctdb 0755 root root -
+EOF
 
 install -d $RPM_BUILD_ROOT%{_docdir}/ctdb/tests/bin
 install -p tests/bin/ctdb_transaction $RPM_BUILD_ROOT%{_docdir}/ctdb/tests/bin
@@ -152,9 +155,11 @@ fi
 %attr(755,root,root) %{_bindir}/ping_pong
 %attr(755,root,root) %{_bindir}/smnotify
 %{systemdunitdir}/ctdb.service
+%{systemdtmpfilesdir}/ctdb.conf
 %attr(754,root,root) /etc/rc.d/init.d/ctdb
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ctdb
 %attr(440,root,root) /etc/sudoers.d/ctdb
+%dir /var/run/ctdb
 %{_mandir}/man1/ctdb.1*
 %{_mandir}/man1/ctdbd.1*
 %{_mandir}/man1/ltdbtool.1*
@@ -163,7 +168,6 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/libctdb.a
 %{_includedir}/ctdb*.h
 %{_pkgconfigdir}/ctdb.pc
 
