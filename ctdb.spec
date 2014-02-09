@@ -14,12 +14,12 @@
 Summary:	A Clustered Database based on Samba's Trivial Database (TDB)
 Summary(pl.UTF-8):	Klastrowa baza danych oparta na bazie danych Trivial Database z Samby (TDB)
 Name:		ctdb
-Version:	2.5.1
+Version:	2.5.2
 Release:	1
 License:	GPL v3+
 Group:		Daemons
 Source0:	http://www.samba.org/ftp/ctdb/%{name}-%{version}.tar.gz
-# Source0-md5:	d0cd91726ff4ca2229e1b21859c94717
+# Source0-md5:	879e726c96b90cc4b3f350b558cde5a6
 Patch0:		%{name}-ib.patch
 Patch1:		%{name}-format.patch
 URL:		http://ctdb.samba.org/
@@ -149,6 +149,7 @@ fi
 %attr(755,root,root) %{_sbindir}/ctdbd_wrapper
 %attr(755,root,root) %{_bindir}/ctdb
 %attr(755,root,root) %{_bindir}/ctdb_diagnostics
+%attr(755,root,root) %{_bindir}/ctdb_event_helper
 %attr(755,root,root) %{_bindir}/ctdb_lock_helper
 %attr(755,root,root) %{_bindir}/ltdbtool
 %attr(755,root,root) %{_bindir}/onnode
@@ -162,9 +163,13 @@ fi
 %dir /var/run/ctdb
 %{_mandir}/man1/ctdb.1*
 %{_mandir}/man1/ctdbd.1*
+%{_mandir}/man1/ctdbd_wrapper.1*
 %{_mandir}/man1/ltdbtool.1*
 %{_mandir}/man1/onnode.1*
 %{_mandir}/man1/ping_pong.1*
+%{_mandir}/man5/ctdbd.conf.5*
+%{_mandir}/man7/ctdb.7*
+%{_mandir}/man7/ctdb-tunables.7*
 
 %files devel
 %defattr(644,root,root,755)
