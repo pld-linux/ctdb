@@ -14,12 +14,12 @@
 Summary:	A Clustered Database based on Samba's Trivial Database (TDB)
 Summary(pl.UTF-8):	Klastrowa baza danych oparta na bazie danych Trivial Database z Samby (TDB)
 Name:		ctdb
-Version:	2.5.5
+Version:	2.5.6
 Release:	1
 License:	GPL v3+
 Group:		Daemons
 Source0:	https://www.samba.org/ftp/ctdb/%{name}-%{version}.tar.gz
-# Source0-md5:	fae1131a07a12e4db1cdb01a81aa1981
+# Source0-md5:	efc50109f90a4c790124c35e4ba234ad
 Patch0:		%{name}-format.patch
 URL:		http://ctdb.samba.org/
 %{?with_pcp:BuildRequires:	pcp-devel}
